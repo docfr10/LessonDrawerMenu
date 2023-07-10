@@ -5,14 +5,21 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -37,35 +44,50 @@ class MainActivity : ComponentActivity() {
                         currentRoute.value = destination.route!!
                     }
 
-                    ModalNavigationDrawer(drawerContent = {
-                        ModalDrawerSheet {
-                            Text("Drawer title", modifier = Modifier.padding(16.dp))
-                            Divider()
-                            NavigationDrawerItem(
-                                label = { Text(text = "Item 1") },
-                                selected = currentRoute.value == Screen.Screen1.route,
-                                onClick = {
-                                    navController.navigate(Screen.Screen1.route)
-                                }
+                    Scaffold(
+                        content = { padding ->
+                            TopAppBar(
+                                title = { Text(text = currentRoute.value) },
+                                navigationIcon = {
+                                    IconButton(onClick = { /*TODO*/ }) {
+                                        Icon(
+                                            imageVector = Icons.Default.Menu,
+                                            contentDescription = "Drawer menu"
+                                        )
+                                    }
+                                },
+                                colors = TopAppBarDefaults.smallTopAppBarColors()
                             )
-                            NavigationDrawerItem(
-                                label = { Text(text = "Item 2") },
-                                selected = currentRoute.value == Screen.Screen2.route,
-                                onClick = {
-                                    navController.navigate(Screen.Screen2.route)
+                            ModalNavigationDrawer(drawerContent = {
+                                ModalDrawerSheet {
+                                    Text("Drawer title", modifier = Modifier.padding(16.dp))
+                                    Divider()
+                                    NavigationDrawerItem(
+                                        label = { Text(text = "Item 1") },
+                                        selected = currentRoute.value == Screen.Screen1.route,
+                                        onClick = {
+                                            navController.navigate(Screen.Screen1.route)
+                                        }
+                                    )
+                                    NavigationDrawerItem(
+                                        label = { Text(text = "Item 2") },
+                                        selected = currentRoute.value == Screen.Screen2.route,
+                                        onClick = {
+                                            navController.navigate(Screen.Screen2.route)
+                                        }
+                                    )
+                                    NavigationDrawerItem(
+                                        label = { Text(text = "Item 3") },
+                                        selected = currentRoute.value == Screen.Screen3.route,
+                                        onClick = {
+                                            navController.navigate(Screen.Screen3.route)
+                                        }
+                                    )
                                 }
-                            )
-                            NavigationDrawerItem(
-                                label = { Text(text = "Item 3") },
-                                selected = currentRoute.value == Screen.Screen3.route,
-                                onClick = {
-                                    navController.navigate(Screen.Screen3.route)
-                                }
-                            )
-                        }
-                    }) {
-                        MainScreen(navController = navController)
-                    }
+                            }) {
+                                MainScreen(navController = navController, padding = padding)
+                            }
+                        })
                 }
             }
         }
